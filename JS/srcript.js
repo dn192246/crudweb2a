@@ -74,8 +74,27 @@ document.getElementById("frmAgregar").addEventListener("submit", async e => {
 
     //Llamar a la API para enviar el registro
     const respuesta = await fetch(API_URL, {
-        method: "POST",
-        
+        method: "POST", //Tipo de solicitud
+        headers: {'Content-Type':'application/json'}, //Tipo de dato enviado
+        body: JSON.stringify({Nombre, Apellido, Correo}) //Datos enviados
     });
+
+    //Verificar si la API responde que los datos fueron enviados correctamente
+    if(respuesta.ok){
+        alert("El registro fue agregado correctamente");
+
+        //Limpiar el formulario
+        document.getElementById("frmAgregar").reset();
+
+        //Cerrar el modal (dialog)
+        modal.close();
+
+        //Recargar la tabla
+        ObtenerIntegrantes();
+    }
+    else{
+        //En caso de que la API devuelva un código diferente a 200-299
+        alert("El registro no pudo ser agregado");
+    }
 
 });
